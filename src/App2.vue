@@ -1,10 +1,24 @@
 <script>
+import { ref } from "vue";
+
 export default {
   setup() {
-    const name = 'John Doe';
-    const status = 'inactive';
-    const tasks = ['Buy milk', 'Go for a walk', 'Clean room', 'Go to the gym'];
+    const name = ref('John Doe');
+    const status = ref('inactive');
+    const tasks = ref(['Buy milk', 'Go for a walk', 'Clean room', 'Go to the gym']);
     const link = 'https://google.com';
+
+    const toggleStatus = () => {
+      if (status.value === 'active') {
+        status.value = 'inactive';
+      } else if (status.value === 'inactive') {
+        status.value = 'pending';
+      } else {
+        status.value = 'active';
+      }
+    }
+
+    return { name, status, tasks, link, toggleStatus };
   }
 };
 </script>
