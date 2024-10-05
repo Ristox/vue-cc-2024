@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const name = ref('John Doe');
 const status = ref('active');
-const tasks = ref(['Buy milk', 'Go for a walk', 'Clean room', 'Go to the gym']);
+const tasks = ref([]);
 const newTask = ref('');
 
 const toggleStatus = () => {
@@ -19,7 +19,7 @@ const toggleStatus = () => {
 }
 
 const addTask = () => {
-  if (newTask.value.trim() !== '') {
+  if (newTask.value) {
     tasks.value.push(newTask.value);
     newTask.value = '';
   }
@@ -28,6 +28,17 @@ const addTask = () => {
 const deleteTask = (index) => {
   tasks.value.splice(index, 1);
 }
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+    const data = await response.json();
+    tasks.value = data.map(task => task.title);
+  }
+  catch (error) {
+    console.log('Error fetching tasks:', error);
+  }
+});
 </script>
 
 <template>
