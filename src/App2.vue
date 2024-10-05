@@ -6,16 +6,15 @@ const status = ref('active');
 const tasks = ref([]);
 const newTask = ref('');
 
-const toggleStatus = () => {
-  if (status.value === 'active') {
-    status.value = 'inactive';
-  }
-  else if (status.value === 'inactive') {
-    status.value = 'pending';
-  }
-  else {
-    status.value = 'active';
-  }
+const STATUS_CYCLE = ['inactive', 'pending', 'active']
+
+const cycleStatus = () => {
+  const current = STATUS_CYCLE.indexOf(status.value);
+  const next = current + 1;
+  status.value =
+      next > STATUS_CYCLE.length - 1
+          ? STATUS_CYCLE[0]
+          : STATUS_CYCLE[next];
 }
 
 const addTask = () => {
@@ -45,7 +44,7 @@ onMounted(async () => {
   <h1>{{ name }}</h1>
 
   <div class="status-container">
-    <button @click="toggleStatus" class="status-btn">Change Status</button>
+    <button @click="cycleStatus" class="status-btn">Change Status</button>
     <p v-if="status === 'active'" class="status-text">User is active</p>
     <p v-else-if="status === 'pending'" class="status-text">User is pending</p>
     <p v-else class="status-text">User is not active</p>
