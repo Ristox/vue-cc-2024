@@ -4,7 +4,6 @@ import { ref } from "vue";
 const name = ref('John Doe');
 const status = ref('active');
 const tasks = ref(['Buy milk', 'Go for a walk', 'Clean room', 'Go to the gym']);
-const link = 'https://google.com';
 const newTask = ref('');
 
 const toggleStatus = () => {
@@ -55,10 +54,6 @@ const deleteTask = (index) => {
         <button @click="deleteTask(index)" class="delete-btn">x</button>
       </li>
     </ul>
-  </div>
-
-  <div>
-    <a :href="link">Click me</a>
   </div>
 </template>
 
