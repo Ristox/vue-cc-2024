@@ -21,13 +21,11 @@ import logo from "@/assets/img/logo.png";
               <a
                   href="index.html"
                   class="text-white bg-green-900 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-              >Home</a
-              >
+              >Home</a>
               <a
                   href="jobs.html"
                   class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-              >Jobs</a
-              >
+              >Jobs</a>
               <a
                   href="add-job.html"
                   class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"

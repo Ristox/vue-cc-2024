@@ -3,9 +3,12 @@
 import Navbar from "@/components/Navbar.vue";
 import Title from "@/components/Title.vue";
 import HomeCards from "@/components/HomeCards.vue";
+import JobListings from "@/components/JobListings.vue";
 </script>
+
 <template>
   <Navbar />
-  <Title title="Test title" subtitle="This is a test subtitle here"/>
+  <Title />
   <HomeCards />
+  <JobListings :limit="3" :showButton="true" />
 </template>
