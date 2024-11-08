@@ -2,9 +2,12 @@ import axios from "axios";
 
 export default  {
   loadJobs: async () => {
-    return axios.get("/api/jobs");
+    return await axios.get("/api/jobs");
   },
   loadJob: async (id) => {
-    return axios.get(`/api/jobs/${id}`);
+    return await axios.get(`/api/jobs/${id}`);
+  },
+  addJob: async (job) => {
+    return await axios.post("/api/jobs", job);
   }
 }

@@ -1,5 +1,49 @@
 <script setup>
+import {reactive} from "vue";
+import server from "@/data";
+import router from "@/router/index.js";
+import {useToast} from "vue-toastification";
 
+const form = reactive({
+  type: 'Part-Time',
+  title: '',
+  description: '',
+  salary: '',
+  location: '',
+  company: {
+    name: '',
+    description: '',
+    contactEmail: '',
+    contactPhone: '',
+  },
+});
+
+const toast = useToast();
+
+const handleSubmit = async () => {
+  const job = {
+    type: form.type,
+    title: form.title,
+    description: form.description,
+    salary: form.salary,
+    location: form.location,
+    company: {
+      name: form.company.name,
+      description: form.company.description,
+      contactEmail: form.company.contactEmail,
+      contactPhone: form.company.contactPhone
+    }
+  }
+
+  try {
+    const response = await server.addJob(job);
+    toast.success('Job added successfully!');
+    await router.push(`/job/${response.data.id}`);
+  } catch (error) {
+    toast.error('Error adding job');
+    console.log('Error adding job:', error);
+  }
+}
 </script>
 
 <template>
@@ -8,7 +52,7 @@
       <div
           class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
       >
-        <form>
+        <form @submit.prevent="handleSubmit">
           <h2 class="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
           <div class="mb-4">
@@ -16,6 +60,7 @@
             >Job Type</label
             >
             <select
+                v-model="form.type"
                 id="type"
                 name="type"
                 class="border rounded w-full py-2 px-3"
@@ -33,6 +78,7 @@
             >Job Listing Name</label
             >
             <input
+                v-model="form.title"
                 type="text"
                 id="name"
                 name="name"
@@ -48,6 +94,7 @@
             >Description</label
             >
             <textarea
+                v-model="form.description"
                 id="description"
                 name="description"
                 class="border rounded w-full py-2 px-3"
@@ -61,6 +108,7 @@
             >Salary</label
             >
             <select
+                v-model="form.salary"
                 id="salary"
                 name="salary"
                 class="border rounded w-full py-2 px-3"
@@ -85,6 +133,7 @@
               Location
             </label>
             <input
+                v-model="form.location"
                 type="text"
                 id="location"
                 name="location"
@@ -101,6 +150,7 @@
             >Company Name</label
             >
             <input
+                v-model="form.company.name"
                 type="text"
                 id="company"
                 name="company"
@@ -116,6 +166,7 @@
             >Company Description</label
             >
             <textarea
+                v-model="form.company.description"
                 id="company_description"
                 name="company_description"
                 class="border rounded w-full py-2 px-3"
@@ -131,6 +182,7 @@
             >Contact Email</label
             >
             <input
+                v-model="form.company.contactEmail"
                 type="email"
                 id="contact_email"
                 name="contact_email"
@@ -146,6 +198,7 @@
             >Contact Phone</label
             >
             <input
+                v-model="form.company.contactPhone"
                 type="tel"
                 id="contact_phone"
                 name="contact_phone"
