@@ -2,6 +2,7 @@
 import JobListing from "@/components/JobListing.vue";
 import axios from "axios";
 import {reactive, defineProps, onMounted} from 'vue';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import {RouterLink} from "vue-router";
 
 defineProps({
@@ -36,13 +37,16 @@ onMounted(async () => {
       <h2 class="text-3xl font-bold text-green-500 mb-6 text-center">
         Browse Jobs
       </h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <JobListing
-          v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
-          :key="job.id"
-          :job="job"
-      />
+      <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
+        <PulseLoader />
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <JobListing
+            v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
+            :key="job.id"
+            :job="job"
+        />
+      </div>
     </div>
   </section>
 
