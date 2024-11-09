@@ -1,5 +1,5 @@
 <script setup>
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {onMounted, reactive} from "vue";
 import server from "@/data";
 
@@ -20,9 +20,11 @@ const job = reactive({
   }
 });
 
+const router = useRouter();
 onMounted(async () => {
   try {
     const response = await server.loadJob(route.params.id);
+    job.id = response.data.id;
     job.type = response.data.type;
     job.title = response.data.title;
     job.description = response.data.description;
@@ -39,7 +41,26 @@ onMounted(async () => {
 });
 
 const updateJob = async () => {
-
+  try {
+    const updatedJob = {
+      id: job.id,
+      type: job.type,
+      title: job.title,
+      description: job.description,
+      salary: job.salary,
+      location: job.location,
+      company: {
+        name: job.company.name,
+        description: job.company.description,
+        contactEmail: job.company.contactEmail,
+        contactPhone: job.company.contactPhone
+      }
+    }
+    await server.editJob(updatedJob);
+    await router.push(`/job/${job.id}`);
+  } catch (error) {
+    console.log(`Error updating job with id '${jobId}':`, error);
+  }
 }
 </script>
 
@@ -49,7 +70,7 @@ const updateJob = async () => {
       <div
           class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
       >
-        <form>
+        <form @submit.prevent="updateJob">
           <h2 class="text-3xl text-center font-semibold mb-6">Edit Job</h2>
 
           <div class="mb-4">
@@ -206,7 +227,6 @@ const updateJob = async () => {
 
           <div>
             <button
-                @submit.prevent="updateJob"
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                 type="submit"
             >
