@@ -1,5 +1,46 @@
 <script setup>
+import {useRoute} from "vue-router";
+import {onMounted, reactive} from "vue";
+import server from "@/data";
 
+const route = useRoute();
+const jobId = route.params.id;
+
+const job = reactive({
+  type: '',
+  title: '',
+  description: '',
+  salary: '',
+  location: '',
+  company: {
+    name: '',
+    description: '',
+    contactEmail: '',
+    contactPhone: '',
+  }
+});
+
+onMounted(async () => {
+  try {
+    const response = await server.loadJob(route.params.id);
+    job.type = response.data.type;
+    job.title = response.data.title;
+    job.description = response.data.description;
+    job.salary = response.data.salary;
+    job.location = response.data.location;
+    job.company.name = response.data.company.name;
+    job.company.description = response.data.company.description;
+    job.company.contactEmail = response.data.company.contactEmail;
+    job.company.contactPhone = response.data.company.contactPhone;
+  }
+  catch (error) {
+    console.log(`Error fetching job with id '${jobId}':`, error);
+  }
+});
+
+const updateJob = async () => {
+
+}
 </script>
 
 <template>
@@ -16,6 +57,7 @@
             >Job Type</label
             >
             <select
+                v-model="job.type"
                 id="type"
                 name="type"
                 class="border rounded w-full py-2 px-3"
@@ -33,6 +75,7 @@
             >Job Listing Name</label
             >
             <input
+                v-model="job.title"
                 type="text"
                 id="name"
                 name="name"
@@ -48,6 +91,7 @@
             >Description</label
             >
             <textarea
+                v-model="job.description"
                 id="description"
                 name="description"
                 class="border rounded w-full py-2 px-3"
@@ -61,6 +105,7 @@
             >Salary</label
             >
             <select
+                v-model="job.salary"
                 id="salary"
                 name="salary"
                 class="border rounded w-full py-2 px-3"
@@ -85,6 +130,7 @@
               Location
             </label>
             <input
+                v-model="job.location"
                 type="text"
                 id="location"
                 name="location"
@@ -101,6 +147,7 @@
             >Company Name</label
             >
             <input
+                v-model="job.company.name"
                 type="text"
                 id="company"
                 name="company"
@@ -116,6 +163,7 @@
             >Company Description</label
             >
             <textarea
+                v-model="job.company.description"
                 id="company_description"
                 name="company_description"
                 class="border rounded w-full py-2 px-3"
@@ -131,6 +179,7 @@
             >Contact Email</label
             >
             <input
+                v-model="job.company.contactEmail"
                 type="email"
                 id="contact_email"
                 name="contact_email"
@@ -146,6 +195,7 @@
             >Contact Phone</label
             >
             <input
+                v-model="job.company.contactPhone"
                 type="tel"
                 id="contact_phone"
                 name="contact_phone"
@@ -156,10 +206,11 @@
 
           <div>
             <button
+                @submit.prevent="updateJob"
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                 type="submit"
             >
-              Add Job
+              Update Job
             </button>
           </div>
         </form>
