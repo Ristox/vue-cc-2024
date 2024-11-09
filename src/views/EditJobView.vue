@@ -41,6 +41,7 @@ onMounted(async () => {
     state.isLoading = false;
   }
   catch (error) {
+    toast.error(`Error fetching job - ${error.message} (${error.code})`);
     console.log(`Error fetching job with id '${jobId}':`, error);
   }
 });
