@@ -3,6 +3,7 @@ import {useRoute, useRouter} from "vue-router";
 import {onMounted, reactive} from "vue";
 import server from "@/data";
 import {useToast} from "vue-toastification";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 const route = useRoute();
 const jobId = route.params.id;
@@ -21,6 +22,9 @@ const job = reactive({
   }
 });
 
+const state = reactive({
+  isLoading: true
+})
 onMounted(async () => {
   try {
     const response = await server.loadJob(route.params.id);
@@ -34,6 +38,7 @@ onMounted(async () => {
     job.company.description = response.data.company.description;
     job.company.contactEmail = response.data.company.contactEmail;
     job.company.contactPhone = response.data.company.contactPhone;
+    state.isLoading = false;
   }
   catch (error) {
     console.log(`Error fetching job with id '${jobId}':`, error);
@@ -44,6 +49,7 @@ const toast = useToast();
 const router = useRouter();
 const updateJob = async () => {
   try {
+    state.isLoading = true;
     const updatedJob = {
       id: job.id,
       type: job.type,
@@ -64,12 +70,17 @@ const updateJob = async () => {
   } catch (error) {
     toast.error(`Error updating job - ${error.message} (${error.code})`);
     console.log(`Error updating job with id '${jobId}':`, error);
+  } finally {
+    state.isLoading = false;
   }
 }
 </script>
 
 <template>
-  <section class="bg-green-50">
+  <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
+    <PulseLoader />
+  </div>
+  <section v-else class="bg-green-50">
     <div class="container m-auto max-w-2xl py-24">
       <div
           class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"

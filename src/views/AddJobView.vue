@@ -3,6 +3,7 @@ import {reactive} from "vue";
 import server from "@/data";
 import router from "@/router/index.js";
 import {useToast} from "vue-toastification";
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 const form = reactive({
   type: 'Part-Time',
@@ -18,9 +19,14 @@ const form = reactive({
   },
 });
 
+const state = reactive({
+  isLoading: false
+});
+
 const toast = useToast();
 
 const handleSubmit = async () => {
+  state.isLoading = true;
   const job = {
     type: form.type,
     title: form.title,
@@ -42,15 +48,19 @@ const handleSubmit = async () => {
   } catch (error) {
     toast.error(`Error adding job - ${error.message} (${error.code})`);
     console.log('Error adding job:', error);
+  } finally {
+    state.isLoading = false;
   }
 }
 </script>
 
 <template>
-  <section class="bg-green-50">
+  <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
+    <PulseLoader />
+  </div>
+  <section v-else class="bg-green-50">
     <div class="container m-auto max-w-2xl py-24">
-      <div
-          class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
+      <div class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
       >
         <form @submit.prevent="handleSubmit">
           <h2 class="text-3xl text-center font-semibold mb-6">Add Job</h2>
