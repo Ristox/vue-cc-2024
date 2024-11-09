@@ -2,6 +2,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {onMounted, reactive} from "vue";
 import server from "@/data";
+import {useToast} from "vue-toastification";
 
 const route = useRoute();
 const jobId = route.params.id;
@@ -20,7 +21,6 @@ const job = reactive({
   }
 });
 
-const router = useRouter();
 onMounted(async () => {
   try {
     const response = await server.loadJob(route.params.id);
@@ -40,6 +40,8 @@ onMounted(async () => {
   }
 });
 
+const toast = useToast();
+const router = useRouter();
 const updateJob = async () => {
   try {
     const updatedJob = {
@@ -57,8 +59,10 @@ const updateJob = async () => {
       }
     }
     await server.editJob(updatedJob);
+    toast.success('Job updated successfully');
     await router.push(`/job/${job.id}`);
   } catch (error) {
+    toast.error(`Error updating job - ${error.message} (${error.code})`);
     console.log(`Error updating job with id '${jobId}':`, error);
   }
 }
