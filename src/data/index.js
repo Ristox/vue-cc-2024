@@ -12,5 +12,8 @@ export default  {
   },
   deleteJob: async (id) => {
     return await axios.delete(`/api/jobs/${id}`);
+  },
+  editJob: async (job) => {
+    return await axios.put(`/api/jobs/${job.id}`, job);
   }
 }
