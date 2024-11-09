@@ -9,5 +9,8 @@ export default  {
   },
   addJob: async (job) => {
     return await axios.post("/api/jobs", job);
+  },
+  deleteJob: async (id) => {
+    return await axios.delete(`/api/jobs/${id}`);
   }
 }

@@ -99,34 +99,6 @@
       }
     },
     {
-      "id": "0f72",
-      "type": "Remote",
-      "title": "Cool developer",
-      "description": "some text here for description \nand some more for responsibilities\nand some more for some cool stuff",
-      "salary": "$90K - $100K",
-      "location": "Tartu, Estonia",
-      "company": {
-        "name": "Yadda Yadda",
-        "description": "Yadda yadda company\ndoes lotsa yadda yadda",
-        "contactEmail": "yadda@yadda.com",
-        "contactPhone": "84-35500"
-      }
-    },
-    {
-      "id": "381a",
-      "type": "Part-Time",
-      "title": "ddsfsf",
-      "description": "aaadsd",
-      "salary": "$70K - $80K",
-      "location": "asfaaaa",
-      "company": {
-        "name": "33asfasd",
-        "description": "dfdsfs",
-        "contactEmail": "asd@asd.ee",
-        "contactPhone": "aaa"
-      }
-    },
-    {
       "id": "6bef",
       "type": "Part-Time",
       "title": "Super Mega Senior Tech Lead 10x Developer",
