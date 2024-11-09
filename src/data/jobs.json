@@ -125,20 +125,6 @@
         "contactEmail": "risto@rsx.ee",
         "contactPhone": "342435345"
       }
-    },
-    {
-      "id": "4e16",
-      "type": "Remote",
-      "title": "sdfdsf",
-      "description": "sfdssd",
-      "salary": "$70K - $80K",
-      "location": "sdfdsf",
-      "company": {
-        "name": "sdfdsfsdf",
-        "description": "sdfdsfsdfdsfds",
-        "contactEmail": "risto.uibo@gmail.com",
-        "contactPhone": "343434"
-      }
     }
   ]
 }
